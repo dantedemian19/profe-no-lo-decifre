@@ -1,0 +1,6 @@
+﻿  profe no lo decifre.cpp
+C:\Users\dante\source\repos\dantedemian19\profe-no-lo-decifre\profe no lo decifre\profe no lo decifre\profe no lo decifre.cpp(32,5): error C2065: 'n': undeclared identifier
+C:\Users\dante\source\repos\dantedemian19\profe-no-lo-decifre\profe no lo decifre\profe no lo decifre\profe no lo decifre.cpp(97,41): error C2660: 'ingresar': function does not take 2 arguments
+C:\Users\dante\source\repos\dantedemian19\profe-no-lo-decifre\profe no lo decifre\profe no lo decifre\profe no lo decifre.cpp(48,6): message : see declaration of 'ingresar'
+C:\Users\dante\source\repos\dantedemian19\profe-no-lo-decifre\profe no lo decifre\profe no lo decifre\profe no lo decifre.cpp(99,43): error C2660: 'ingresar': function does not take 2 arguments
+C:\Users\dante\source\repos\dantedemian19\profe-no-lo-decifre\profe no lo decifre\profe no lo decifre\profe no lo decifre.cpp(48,6): message : see declaration of 'ingresar'
