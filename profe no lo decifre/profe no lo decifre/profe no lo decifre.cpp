@@ -102,12 +102,13 @@ void borrar() {// borra toda la lista
         if (p != NULL) p->sig;
     }
 };
-void ingresar(node& listf, node&lists, int valor, int& n) { //ingresa un valor nuevo al la lista
+void ingresar(node& listf, node&lists, int valor) { //ingresa un valor nuevo al la lista
     //ingreso de un nodo nuevo a la lista
     node z = new(struct list);
     z->num = (int)valor;
-    if (n != 0) {
-
+    if (lists != NULL) {
+        listf->sig = z;
+        z->ant = listf;
     }
     else {
         z->ant = NULL;
@@ -115,7 +116,7 @@ void ingresar(node& listf, node&lists, int valor, int& n) { //ingresa un valor n
         listf = z;
     }
     listf = z;
-    n = n + 1;
+    //n = n + 1;
     /* 
     if (program == 1 || program == 2) {
         ordenar(liste, valor);// ordenamiento del programa 1 y 2;
@@ -123,13 +124,19 @@ void ingresar(node& listf, node&lists, int valor, int& n) { //ingresa un valor n
     */
 };
 //mostrar
-void mostrarfifo(node start) {// muestra el vector desde el primer ingresado
+void mostrarfifo(node& start) {// muestra el vector desde el primer ingresado
     node z = start;// cursor
-    int i = 0;
     //system("cls");
     while (z != NULL) {
         cout <<char(z->num);
-        i += 1;
+        z = z->sig;
+    }
+};
+void mostrarfifotest(node& start) {// muestra el vector desde el primer ingresado
+    node z = start;// cursor
+    //system("cls");
+    while (z != NULL) {
+        cout << z->num << " ";
         z = z->sig;
     }
 };
@@ -140,19 +147,36 @@ void mostrarfifo(node start) {// muestra el vector desde el primer ingresado
 
 void randomkey(int key[2]) {
     for (int i = 0; i < 2; i += 1) {
-        key[i] = rand() % 25 + (A+1);
+        key[i] = rand() % 25 + 1;
     }
 };
+void keyrequest(int key[]) {
+    string keys;
+    cin >> keys;
+    for (int i = 0; i < 2; i += 1) {
+        key[i] = keys[i] - A;
+    }
+}
 
 void chyper(node& raws, int key[2]) {
-    node z = start;// cursor
+    node z = raws;// cursor
     system("cls");
     int i = 0;
     while (z != NULL) {
-        for (int j = 0; j < key[i]; j += 0) {
-            z->num += 1;
-            if (z->num > Z) z->num = A;
-        }
+        z->num += key[i];
+        if (z->num > Z) { z->num -= 26; }
+        z = z->sig;
+        i += 1;
+        if (i > 1)i = 0;
+    }
+};
+void dechyper(node& raws, int key[2]) {
+    node z = raws;// cursor
+    system("cls");
+    int i = 0;
+    while (z != NULL) {
+        z->num -= key[i];
+        if (z->num < A) { z->num += 26; }
         z = z->sig;
         i += 1;
         if (i > 1)i = 0;
@@ -161,34 +185,61 @@ void chyper(node& raws, int key[2]) {
 
 int convert(char conv)
 {
-    return (int)conv;
-}
+    return int(conv);
+};
+
+void stringtoint(string plain, node& raws, node& rawf) {
+    bool knok = false, kno = false;
+    int i = 0;
+    while (!knok) {
+        if ((convert(plain[i]) <= Z && convert(plain[i]) >= A) && !kno) ingresar(rawf, raws, convert(plain[i]));
+        else {
+            knok = !knok;
+        }
+        i += 1;
+    }
+};
 
 void encoder() {
     string plain;
     node raws = NULL, rawf = NULL;
-    bool knok = false, kno = false;
-    int n = 0;
     int key[2] = { 0,0 };
     cout << "ingrese el texto a ciphar (sin espacios): \n";
     cin >> plain;
-    int i = 0;
-    while (knok) {
-        if (((int)plain[i] <= Z && (int)plain[i] >= A ) && !kno) ingresar(rawf, raws, (int)plain[i], n);
-        else{
-            knok = !knok;
-        }
-        cout << (int)plain[i];
-        i += 1;
-    }
-    pause();
+    stringtoint(plain,raws,rawf);
     randomkey(key);
     chyper(raws,key);
+    cout << " ascii: ";
+    mostrarfifotest(raws);
+    cout << " \n";
     cout << " mensaje: ";
     mostrarfifo(raws);
     cout << " \n";
     cout << " la clave es: ";
-    for (int i = 0; i < 2; i += 1) cout << char(key[i]);
+    for (int i = 0; i < 2; i += 1) cout << char(key[i]+A);
+    cout << "\n";
+}
+void decoder() {
+    string plain;
+    node raws = NULL, rawf = NULL;
+    bool knok = false;
+    int n = 0;
+    int key[2] = { 0,0 };
+    cout << "ingrese el texto a deciphar (sin espacios): \n";
+    cin >> plain;
+    cls();
+    stringtoint(plain, raws, rawf);
+    cout << "ingrese la clave: \n";
+    keyrequest(key);
+    dechyper(raws, key);
+    cout << " ascii: ";
+    mostrarfifotest(raws);
+    cout << " \n";
+    cout << " mensaje: ";
+    mostrarfifo(raws);
+    cout << " \n";
+    cout << " la clave es: ";
+    for (int i = 0; i < 2; i += 1) cout << char(key[i] + A);
     cout << "\n";
 }
 
@@ -206,9 +257,9 @@ void pedir() {
     int i = 0;
     while(knok) {
         if (int(plain[i]) != space || !kno)
-            ingresar(rawf, raws, int(plain[i]), n);
+            ingresar(rawf, raws, int(plain[i]));
         else { 
-            ingresar(knownf, knowns, int(plain[i]), n);\
+            ingresar(knownf, knowns, int(plain[i]));
             kno = true; 
         
         }
@@ -230,7 +281,7 @@ void menu() { // menu
         enter = false;
         while (!enter) {
             cls();//cursor appears only in selected option 
-            cout << name;
+            cout << name << "  ";
             if (w == 1) { cout << ">>"; } cout << " encodear un mensaje \n" << "  ";
             if (w == 2) { cout << ">>"; } cout << " decodificar un mensaje \n" << "  ";
             if (w == 3) { cout << ">>"; } cout << " crackear un mensaje \n" << "  ";
@@ -246,7 +297,7 @@ void menu() { // menu
             pause();
             break;
         case 2:
-
+            decoder();
             pause();
             break;
         case 3:
@@ -275,7 +326,7 @@ void coder(){
     int i = 0;
     while (knok) {
         if ((int)plain[i] != space || !kno)
-            ingresar(rawf, raws, (int)plain[i], n);
+            ingresar(rawf, raws, (int)plain[i]);
         if ((int)plain[i] == 0)  knok = !knok;
         i += 1;
     }
