@@ -95,9 +95,9 @@ void crear(node& listf, node& lists, int& n) {// resetea la lista
 };
 void borrar(node& start) {// borra toda la lista
     node q = start;
-    node p = q;
+    node p = q->sig;
     while (q != NULL) {
-        delete q;
+        free(q);
         q = p;
         if (p != NULL) p->sig;
     }
@@ -222,54 +222,14 @@ void crack(node& raws, int key[2], string& know, bool& ok) {
             }
             z = raws;
             i = 1;
-=======
-    for ( key[0] = 0; key[0] < 26; key[0] += 1) {
-        for (key[1] = 0; key[1] < 26; key[1] += 1) {
-            test = "";
-            z = raws;
-            while (z != NULL) {
-                test += char(z->num);
-                z = z->sig;
-            }
-
-            if (strstr(test.c_str(), know.c_str())) {
-                ok = true;
-                return;
-            }
-            z = raws;
-            i = 0;
->>>>>>> e0878d7f307ce65cf0c682757d31b5c6e1a286e2
-            while (z != NULL) {
-                z->num -= i;
-                if (z->num < A) { z->num += 26; }
-                z = z->sig;
-                i += 1;
-                if (i > 1)i = 0;
-            }
         }
-<<<<<<< HEAD
     }
     if (!ok) {
         cout << " error de crackeo (probar con palabras conocidas mas largas) \n";
-=======
-        z = raws;
-        i = 1;
-        while(z != NULL) {
-            z->num -= i;
-            if (z->num < A) { z->num += 26; }
-            z = z->sig;
-            i += 1;
-            if (i > 1)i = 0;
-        }
-    }
-    if (!ok) {
-        cout << " error de crackeo";
->>>>>>> e0878d7f307ce65cf0c682757d31b5c6e1a286e2
     }
 };
 
-int convert(char conv)
-{
+int convert(char conv) {
     return int(conv);
 };
 
@@ -326,7 +286,6 @@ void encoder() {
     cout << " la clave es: ";
     for (int i = 0; i < 2; i += 1) cout << char(key[i]+A);
     cout << "\n";
-    borrar(raws);
 }
 void decoder() {
     string plain;
@@ -348,7 +307,6 @@ void decoder() {
     cout << " la clave es: ";
     for (int i = 0; i < 2; i += 1) cout << char(key[i] + A);
     cout << "\n";
-    borrar(raws);
 }
 
 
@@ -373,10 +331,6 @@ void cracker() {
         for (int i = 0; i < 2; i += 1) cout << char(key[i] + A);
         cout << "\n";
     }
-<<<<<<< HEAD
-    borrar(raws);
-=======
->>>>>>> e0878d7f307ce65cf0c682757d31b5c6e1a286e2
 };
 void menu() { // menu
     //advice();
