@@ -205,7 +205,6 @@ void crack(node& raws, int key[2], string& know, bool& ok) {
                     test += char(z->num);
                     z = z->sig;
                 }
-
                 if (strstr(test.c_str(), know.c_str())) {
                     ok = true;
                     return;
@@ -222,6 +221,13 @@ void crack(node& raws, int key[2], string& know, bool& ok) {
             }
             z = raws;
             i = 1;
+            while (z != NULL) {
+                z->num -= i;
+                if (z->num < A) { z->num += 26; }
+                z = z->sig;
+                i += 1;
+                if (i > 1)i = 0;
+            }
         }
     }
     if (!ok) {
@@ -265,7 +271,7 @@ void encoder() {
     string plain;
     node raws = NULL, rawf = NULL;
     int key[2] = { 0,0 };
-    int s = 0;
+    int s = 1;
     cout << "ingrese el texto a ciphar (sin espacios): \n";
     cin >> plain;
     stringtoint(plain,raws,rawf);
