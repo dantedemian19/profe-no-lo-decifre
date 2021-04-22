@@ -309,7 +309,6 @@ void decoder() {// parte del programa que se encarga de decodificar un mensaje c
     // mostrar por pantalla //
     //cout << " ascii: "; //parte para mostrar los valores del mensaje en ASCII
     //mostrarfifotest(raws);
-    cls();
     cout << " \n";
     cout << " mensaje: ";
     mostrarfifo(raws);
@@ -394,3 +393,5 @@ int main()
     menu();
     return 0;
 }
+
+
